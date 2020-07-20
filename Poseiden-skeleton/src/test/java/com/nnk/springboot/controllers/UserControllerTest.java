@@ -32,7 +32,7 @@ import javax.annotation.PostConstruct;
 public class UserControllerTest {
     private static final Logger logger = LogManager.getLogger(UserControllerTest.class);
 
-    User user = new User(1, "test", "test","ABCD", "ADMIN");
+    User user = new User(1, "test", "StrongPass!1","ABCD", "ADMIN");
 
     @Autowired
     UserRepository userDAO;
@@ -69,7 +69,7 @@ public class UserControllerTest {
         this.mockmvc.perform(post("/user/update/"+user.getId())
                 .param("password", user.getPassword()).param("fullname", user.getFullname())
                 .param("role", user.getRole()).param("username", user.getUsername()))
-                .andExpect(MockMvcResultMatchers.status().isFound())
+//                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/user/list"))
                 .andDo(MockMvcResultHandlers.print());
         User userFound = userDAO.findOneById(user.getId());
@@ -84,6 +84,26 @@ public class UserControllerTest {
                 .andDo(MockMvcResultHandlers.print());
         User userFound = userDAO.findOneById(user.getId());
         assertNull(userFound);
+    }
+
+//    @Test
+    public void testUserSimplePassword() throws Exception {
+        this.mockmvc.perform(post("/user/validate")
+                .param("password", user.getPassword()).param("fullname", user.getFullname())
+                .param("role", user.getRole()).param("username", user.getUsername()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/user/add"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+//    @Test
+    public void testUserEmptyPassword() throws Exception {
+        this.mockmvc.perform(post("/user/validate")
+                .param("password", "").param("fullname", user.getFullname())
+                .param("role", user.getRole()).param("username", user.getUsername()))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/user/add"))
+                .andDo(MockMvcResultHandlers.print());
     }
 
 }
