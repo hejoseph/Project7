@@ -18,6 +18,20 @@ public class User {
     @NotBlank(message = "Role is mandatory")
     private String role;
 
+    public User() {
+    }
+
+    public User(Integer id, String username, String password, String fullname, String role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.fullname = fullname;
+        this.role = role;
+    }
+
+    public User(String username, String password, String fullname, String role) { this(0, username, password, fullname, role);
+    }
+
     public Integer getId() {
         return id;
     }
@@ -56,5 +70,16 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", fullname='" + fullname + '\'' +
+                ", role='" + role + '\'' +
+                '}';
     }
 }

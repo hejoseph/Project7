@@ -19,7 +19,6 @@ public class BidList {
     private Integer bidListId;
     @NotNull
     private String account;
-    @NotNull
     private String type;
     private Double bidQuantity;
     private Double askQuantity;
