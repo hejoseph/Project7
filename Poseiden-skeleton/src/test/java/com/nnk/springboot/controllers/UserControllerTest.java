@@ -83,12 +83,22 @@ public class UserControllerTest {
         assertNull(userFound);
     }
 
-//    @Test
+    @Test
+    public void testUserStrongPassword() throws Exception {
+        this.mockmvc.perform(post("/user/validate")
+                .param("password", user.getPassword()).param("fullname", user.getFullname())
+                .param("role", user.getRole()).param("username", user.getUsername()))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/user/list"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
     public void testUserSimplePassword() throws Exception {
         this.mockmvc.perform(post("/user/validate")
                 .param("password", "abcde").param("fullname", user.getFullname())
                 .param("role", user.getRole()).param("username", user.getUsername()))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/user/add"))
                 .andDo(MockMvcResultHandlers.print());
     }

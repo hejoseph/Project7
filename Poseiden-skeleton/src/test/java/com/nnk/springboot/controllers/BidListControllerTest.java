@@ -1,7 +1,7 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.repositories.CurvePointRepository;
+import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.repositories.BidListRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,49 +21,50 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @Sql(scripts = "classpath:data-test.sql")
 @Transactional
 @AutoConfigureMockMvc(addFilters = false)
-public class CurvePointControllerTest {
-    CurvePoint curvePoint = new CurvePoint(1, 123, 1.23, 1.23);
+public class BidListControllerTest {
+    BidList bidList = new BidList(1, "testAccount", "testType", 1.0);
 
     @Autowired
-    CurvePointRepository curvePointDAO;
+    BidListRepository bidListDAO;
 
     @Autowired
     MockMvc mockmvc;
 
     @Test
-    public void getCurvePointList() throws Exception {
-        this.mockmvc.perform(get("/curvePoint/list"))
+    public void getBidListTest() throws Exception {
+        this.mockmvc.perform(get("/bidList/list"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
-    public void addCurvePoint() throws Exception {
-        this.mockmvc.perform(get("/curvePoint/add"))
+    public void getBidFormTest() throws Exception {
+        this.mockmvc.perform(get("/bidList/add"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
                 .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
-    public void modifyCurvePoint() throws Exception {
-        this.mockmvc.perform(post("/curvePoint/update/" + curvePoint.getId())
-                .param("term", curvePoint.getTerm().toString()))
-                .andExpect(MockMvcResultMatchers.status().isFound())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/curvePoint/list"))
+    public void updateTest() throws Exception {
+        this.mockmvc.perform(post("/bidList/update/" + bidList.getId())
+                .param("account", bidList.getAccount()))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/bidList/list"))
                 .andDo(MockMvcResultHandlers.print());
-        CurvePoint curveFound = curvePointDAO.findOneById(curvePoint.getId());
-        assertEquals(curvePoint.getTerm(), curveFound.getTerm());
+        BidList bidFound = bidListDAO.findOneById(bidList.getId());
+        assertEquals(bidList.getAccount(), bidFound.getAccount());
     }
 
     @Test
-    public void deleteCurvePoint() throws Exception {
-        this.mockmvc.perform(get("/curvePoint/delete/" + curvePoint.getId()))
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/curvePoint/list"))
+    public void deleteTest() throws Exception {
+        this.mockmvc.perform(get("/bidList/delete/" + bidList.getId()))
+//                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/bidList/list"))
                 .andDo(MockMvcResultHandlers.print());
-        CurvePoint curveFound = curvePointDAO.findOneById(curvePoint.getId());
-        assertNull(curveFound);
+        BidList bidFound = bidListDAO.findOneById(bidList.getId());
+        assertNull(bidFound);
     }
 
 }
