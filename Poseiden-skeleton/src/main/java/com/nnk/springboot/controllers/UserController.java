@@ -52,14 +52,14 @@ public class UserController {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         user.setPassword("");
         model.addAttribute("user", user);
-        return "user/update";
+        return "redirect:/user/update";
     }
 
     @PostMapping("/user/update/{id}")
     public String updateUser(@PathVariable("id") Integer id, @Valid User user,
                              BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "user/update";
+            return "redirect:/user/update";
         }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
