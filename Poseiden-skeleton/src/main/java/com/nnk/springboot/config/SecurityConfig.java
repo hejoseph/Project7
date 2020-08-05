@@ -2,10 +2,12 @@ package com.nnk.springboot.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  * This configuration file is aimed to configure secure login to admin and users and specify passsword validation method
@@ -23,29 +25,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/bidList/**","/user/**", "/rating/**", "/ruleName/**", "/trade/**", "/curvePoint/**").hasAnyRole("ADMIN", "USER").antMatchers("/user/**").permitAll().and().formLogin()  //login configuration
-                .defaultSuccessUrl("/bidList/list").and().logout()    //logout configuration
+        http.authorizeRequests()
+                .antMatchers("/bidList/**","/user/**", "/rating/**", "/ruleName/**", "/trade/**", "/curvePoint/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/user/**")
+//                .authenticated()
+                .permitAll()
+                .and().formLogin()  //login configuration
+                .permitAll()
+                .defaultSuccessUrl("/")
+                .failureUrl("/error")
+                .and().logout()    //logout configuration
+                .permitAll()
                 .logoutUrl("/app-logout").logoutSuccessUrl("/").and().exceptionHandling() //exception handling configuration
-                .accessDeniedPage("/app/error")
+                .accessDeniedPage("/error")
                 .and().cors().and().
                 csrf().disable();
-//        http.authorizeRequests()
-//                .anyRequest().authenticated()
-//                .and().formLogin()
-//                .loginPage("/login").permitAll();
-//        http.authorizeRequests().antMatchers(HttpMethod.POST,"/**").permitAll().and().
-//                cors().and().
-//                csrf().disable();
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//        auth.inMemoryAuthentication()
-//                .passwordEncoder(encoder)
-//                .withUser("spring")
-//                .password(encoder.encode("secret"))
-//                .roles("USER");
-//    }
+    /**
+     * This method encode the password that is informed by a new user
+     * @param auth is user or admin info that are informed at sign in form
+     * @throws Exception
+     */
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        BCryptPasswordEncoder
+                passwordEncoder =
+                new BCryptPasswordEncoder();
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+    }
 
 }

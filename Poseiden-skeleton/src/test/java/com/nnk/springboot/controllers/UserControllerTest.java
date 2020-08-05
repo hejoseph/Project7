@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -61,7 +60,7 @@ public class UserControllerTest {
     public void getUserList() throws Exception {
 //        .perform(get("/admin").with(user("admin").password("pass").roles("USER","ADMIN")))
 
-        this.mockmvc.perform(get("/user/list").with(user("admin").password("pass").roles("USER","ADMIN")))
+        this.mockmvc.perform(get("/user/list")/*.with(user("admin").password("pass").roles("USER","ADMIN"))*/)
 //                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType("text/html;charset=UTF-8"))
                 .andDo(MockMvcResultHandlers.print());
