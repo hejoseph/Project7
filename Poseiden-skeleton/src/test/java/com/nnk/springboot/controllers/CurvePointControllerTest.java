@@ -49,12 +49,20 @@ public class CurvePointControllerTest {
     @Test
     public void modifyCurvePoint() throws Exception {
         this.mockmvc.perform(post("/curvePoint/update/" + curvePoint.getId())
-                .param("term", curvePoint.getTerm().toString()))
+                .param("curveId", curvePoint.getCurveId().toString()))
 //                .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/curvePoint/list"))
                 .andDo(MockMvcResultHandlers.print());
         CurvePoint curveFound = curvePointDAO.findOneById(curvePoint.getId());
-        assertEquals(curvePoint.getTerm(), curveFound.getTerm());
+        assertEquals(curvePoint.getCurveId(), curveFound.getCurveId());
+    }
+
+    @Test
+    public void modifyCurvePointError() throws Exception {
+        this.mockmvc.perform(post("/curvePoint/update/" + curvePoint.getId())
+                .param("curveId", ""))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/curvePoint/update"))
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
@@ -64,6 +72,29 @@ public class CurvePointControllerTest {
                 .andDo(MockMvcResultHandlers.print());
         CurvePoint curveFound = curvePointDAO.findOneById(curvePoint.getId());
         assertNull(curveFound);
+    }
+
+    @Test
+    public void validCurvePointTest() throws Exception {
+        this.mockmvc.perform(post("/curvePoint/validate")
+                .param("curveId", "123"))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/curvePoint/list"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void notValidCurvePointTest() throws Exception {
+        this.mockmvc.perform(post("/curvePoint/validate")
+                .param("curveId", ""))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/curvePoint/add"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void showFormTest() throws Exception {
+        this.mockmvc.perform(get("/curvePoint/update/"+curvePoint.getId()))
+//                .andExpect(MockMvcResultMatchers.redirectedUrl("/curvePoint/update"))
+                .andDo(MockMvcResultHandlers.print());
     }
 
 }

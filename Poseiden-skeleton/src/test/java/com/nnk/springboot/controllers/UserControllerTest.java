@@ -87,6 +87,16 @@ public class UserControllerTest {
     }
 
     @Test
+    public void updateUserError() throws Exception {
+        this.mockmvc.perform(post("/user/update/"+user.getId())
+                .param("password", "").param("fullname", user.getFullname())
+                .param("role", user.getRole()).param("username", user.getUsername()))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/user/update"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
     public void deleteUser() throws Exception {
         this.mockmvc.perform(get("/user/delete/"+user.getId()))
 //                .andExpect(MockMvcResultMatchers.status().isFound())
@@ -96,7 +106,7 @@ public class UserControllerTest {
         assertNull(userFound);
     }
 
-//    @Test
+    @Test
     public void testUserStrongPassword() throws Exception {
         this.mockmvc.perform(post("/user/validate")
                 .param("password", user.getPassword()).param("fullname", user.getFullname())
@@ -106,23 +116,31 @@ public class UserControllerTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
-//    @Test
+    @Test
     public void testUserSimplePassword() throws Exception {
         this.mockmvc.perform(post("/user/validate")
                 .param("password", "abcde").param("fullname", user.getFullname())
                 .param("role", user.getRole()).param("username", user.getUsername()))
 //                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/user/add"))
+//                .andExpect(MockMvcResultMatchers.redirectedUrl("/user/add"))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/user/list"))
                 .andDo(MockMvcResultHandlers.print());
     }
 
-//    @Test
+    @Test
     public void testUserEmptyPassword() throws Exception {
         this.mockmvc.perform(post("/user/validate")
                 .param("password", "").param("fullname", user.getFullname())
                 .param("role", user.getRole()).param("username", user.getUsername()))
 //                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/user/add"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void showFormTest() throws Exception {
+        this.mockmvc.perform(get("/user/update/"+user.getId()))
+//                .andExpect(MockMvcResultMatchers.redirectedUrl("/user/update"))
                 .andDo(MockMvcResultHandlers.print());
     }
 

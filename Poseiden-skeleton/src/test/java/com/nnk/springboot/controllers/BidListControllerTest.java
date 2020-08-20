@@ -48,23 +48,54 @@ public class BidListControllerTest {
 
     @Test
     public void updateTest() throws Exception {
-        this.mockmvc.perform(post("/bidList/update/" + bidList.getId())
+        this.mockmvc.perform(post("/bidList/update/" + bidList.getBidListId())
                 .param("account", bidList.getAccount()))
 //                .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/bidList/list"))
                 .andDo(MockMvcResultHandlers.print());
-        BidList bidFound = bidListDAO.findOneById(bidList.getId());
+        BidList bidFound = bidListDAO.findOneByBidListId(bidList.getBidListId());
         assertEquals(bidList.getAccount(), bidFound.getAccount());
     }
 
     @Test
+    public void updateTestError() throws Exception {
+        this.mockmvc.perform(post("/bidList/update/" + bidList.getBidListId())
+                .param("account", ""))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/bidList/update"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
     public void deleteTest() throws Exception {
-        this.mockmvc.perform(get("/bidList/delete/" + bidList.getId()))
+        this.mockmvc.perform(get("/bidList/delete/" + bidList.getBidListId()))
 //                .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/bidList/list"))
                 .andDo(MockMvcResultHandlers.print());
-        BidList bidFound = bidListDAO.findOneById(bidList.getId());
+        BidList bidFound = bidListDAO.findOneByBidListId(bidList.getBidListId());
         assertNull(bidFound);
+    }
+
+    @Test
+    public void validBidListTest() throws Exception {
+        this.mockmvc.perform(post("/bidList/validate")
+                .param("account", "123"))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/bidList/list"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void notValidBidListTest() throws Exception {
+        this.mockmvc.perform(post("/bidList/validate")
+                .param("account", ""))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/bidList/add"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void showFormTest() throws Exception {
+        this.mockmvc.perform(get("/bidList/update/"+bidList.getBidListId()))
+//                .andExpect(MockMvcResultMatchers.redirectedUrl("/bidList/update"))
+                .andDo(MockMvcResultHandlers.print());
     }
 
 }

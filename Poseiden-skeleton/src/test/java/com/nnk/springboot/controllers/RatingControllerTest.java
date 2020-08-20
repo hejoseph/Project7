@@ -59,6 +59,17 @@ public class RatingControllerTest {
     }
 
     @Test
+    public void modifyRatingError() throws Exception {
+        this.mockmvc.perform(post("/rating/update/"+rating.getId())
+                .param("moodysRating", ""))
+//                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/rating/update"))
+                .andDo(MockMvcResultHandlers.print());
+
+
+    }
+
+    @Test
     public void deleteRating() throws Exception {
         this.mockmvc.perform(get("/rating/delete/"+rating.getId()))
 //                .andExpect(MockMvcResultMatchers.status().isFound())
@@ -66,5 +77,28 @@ public class RatingControllerTest {
                 .andDo(MockMvcResultHandlers.print());
         Rating ratingFound = ratingDAO.findOneById(rating.getId());
         assertNull(ratingFound);
+    }
+
+    @Test
+    public void validRatingTest() throws Exception {
+        this.mockmvc.perform(post("/rating/validate")
+                .param("moodysRating", "test"))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/rating/list"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void notValidRatingTest() throws Exception {
+        this.mockmvc.perform(post("/rating/validate")
+                .param("moodysRating", ""))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/rating/add"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void showFormTest() throws Exception {
+        this.mockmvc.perform(get("/rating/update/"+rating.getId()))
+//                .andExpect(MockMvcResultMatchers.redirectedUrl("/rating/update"))
+                .andDo(MockMvcResultHandlers.print());
     }
 }

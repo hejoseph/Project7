@@ -57,10 +57,41 @@ public class RuleNameControllerTest {
     }
 
     @Test
+    public void updateRuleNameError() throws Exception {
+        this.mockmvc.perform(post("/ruleName/update/"+ruleName.getId())
+                .param("name", ""))
+//                .andExpect(MockMvcResultMatchers.redirectedUrl("/ruleName/update"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
     public void deleteRuleName() throws Exception {
         this.mockmvc.perform(get("/ruleName/delete/"+ruleName.getId()))
 //                .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/ruleName/list"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void validRuleNameTest() throws Exception {
+        this.mockmvc.perform(post("/ruleName/validate")
+                .param("name", "test"))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/ruleName/list"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void notValidRuleNameTest() throws Exception {
+        this.mockmvc.perform(post("/ruleName/validate")
+                .param("name", ""))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/ruleName/add"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void showFormTest() throws Exception {
+        this.mockmvc.perform(get("/ruleName/update/"+ruleName.getId()))
+//                .andExpect(MockMvcResultMatchers.redirectedUrl("/ruleName/update"))
                 .andDo(MockMvcResultHandlers.print());
     }
 

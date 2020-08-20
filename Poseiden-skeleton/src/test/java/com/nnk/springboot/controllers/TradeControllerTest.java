@@ -48,23 +48,55 @@ public class TradeControllerTest {
 
     @Test
     public void updateTrade() throws Exception {
-        this.mockmvc.perform(post("/trade/update/"+trade.getId())
+        this.mockmvc.perform(post("/trade/update/"+trade.getTradeId())
                 .param("account", trade.getAccount()).param("type", trade.getType()))
 //                .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/trade/list"))
                 .andDo(MockMvcResultHandlers.print());
-        Trade tradeFound = tradeDAO.findOneById(trade.getId());
+        Trade tradeFound = tradeDAO.findOneByTradeId(trade.getTradeId());
         assertEquals(trade.getAccount(), tradeFound.getAccount());
     }
 
     @Test
+    public void updateTradeError() throws Exception {
+        this.mockmvc.perform(post("/trade/update/"+trade.getTradeId())
+                .param("account", "").param("type", trade.getType()))
+//                .andExpect(MockMvcResultMatchers.status().isFound())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/trade/update"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
     public void deleteTrade() throws Exception {
-        this.mockmvc.perform(get("/trade/delete/"+trade.getId()))
+        this.mockmvc.perform(get("/trade/delete/"+trade.getTradeId()))
 //                .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/trade/list"))
                 .andDo(MockMvcResultHandlers.print());
-        Trade tradeFound = tradeDAO.findOneById(trade.getId());
+        Trade tradeFound = tradeDAO.findOneByTradeId(trade.getTradeId());
         assertNull(tradeFound);
+    }
+
+    @Test
+    public void validTradeTest() throws Exception {
+        this.mockmvc.perform(post("/trade/validate")
+                .param("account", "teest").param("type", "test"))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/trade/list"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void notValidTradeTest() throws Exception {
+        this.mockmvc.perform(post("/trade/validate")
+                .param("account", "").param("type", "test"))
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/trade/add"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void showFormTest() throws Exception {
+        this.mockmvc.perform(get("/trade/update/"+trade.getTradeId()))
+//                .andExpect(MockMvcResultMatchers.redirectedUrl("/trade/update"))
+                .andDo(MockMvcResultHandlers.print());
     }
 
 }
