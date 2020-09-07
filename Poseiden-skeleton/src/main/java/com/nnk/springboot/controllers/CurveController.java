@@ -69,7 +69,7 @@ public class CurveController {
         }
         logger.info("Error on curvepoint adding validation, go back to adding form");
         logger.info(curvePoint.toString());
-        return "curvePoint/add";
+        return "redirect:/curvePoint/add";
     }
 
     /**
@@ -100,7 +100,7 @@ public class CurveController {
                              BindingResult result, Model model) {
         if(result.hasErrors()) {
             logger.info("Curvepoint updating failed, go back to updating form display, has errors");
-            return "curvePoint/update";
+            return "redirect:/curvePoint/update";
         }
         curvePoint.setId(id);
         curvePointRepository.save(curvePoint);

@@ -63,8 +63,10 @@ public class RatingController {
         }
         logger.info("Error on rating adding validation, go back to adding form");
         logger.info(rating.toString());
-        return "rating/add";
+        return "redirect:/rating/add";
     }
+
+
 
     /**
      * show update form with data
@@ -95,7 +97,7 @@ public class RatingController {
         if(result.hasErrors()) {
             logger.info("Rating updating failed, go back to updating form display, has errors");
             logger.info(rating.toString());
-            return "rating/update";
+            return "redirect:/rating/update";
         }
         rating.setId(id);
         ratingRepository.save(rating);

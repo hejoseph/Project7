@@ -1,6 +1,7 @@
 package com.nnk.springboot.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -9,11 +10,13 @@ import java.time.LocalDateTime;
 @Table(name = "trade")
 public class Trade {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer tradeId;
     @NotNull
+    @NotBlank
     private String account;
     @NotNull
+    @NotBlank
     private String type;
     private Double buyQuantity;
     private Double sellQuantity;
@@ -37,8 +40,8 @@ public class Trade {
     public Trade() {
     }
 
-    public Trade(int id, String account, String type) {
-        this.id = id;
+    public Trade(int tradeId, String account, String type) {
+        this.tradeId = tradeId;
         this.account = account;
         this.type = type;
     }
@@ -47,8 +50,8 @@ public class Trade {
         this(0, account, type);
     }
 
-    public Integer getId() { return id; }
-    public void setId(Integer tradeId) { this.id = tradeId; }
+    public Integer getTradeId() { return tradeId; }
+    public void setTradeId(Integer tradeId) { this.tradeId = tradeId; }
 
     public String getAccount() { return account; }
     public void setAccount(String account) { this.account = account; }
@@ -112,6 +115,6 @@ public class Trade {
 
     @Override
     public String toString() {
-        return "Trade{" + "tradeId=" + id + ", account='" + account + '\'' + ", type='" + type + '\'' + ", buyQuantity=" + buyQuantity + ", sellQuantity=" + sellQuantity + ", buyPrice=" + buyPrice + ", sellPrice=" + sellPrice + ", benchmark='" + benchmark + '\'' + ", tradeDate=" + tradeDate + ", security='" + security + '\'' + ", status='" + status + '\'' + ", trader='" + trader + '\'' + ", book='" + book + '\'' + ", creationName='" + creationName + '\'' + ", creationDate=" + creationDate + ", revisionName='" + revisionName + '\'' + ", revisionDate=" + revisionDate + ", dealName='" + dealName + '\'' + ", dealType='" + dealType + '\'' + ", sourceListId='" + sourceListId + '\'' + ", side='" + side + '\'' + '}';
+        return "Trade{" + "tradeId=" + tradeId + ", account='" + account + '\'' + ", type='" + type + '\'' + ", buyQuantity=" + buyQuantity + ", sellQuantity=" + sellQuantity + ", buyPrice=" + buyPrice + ", sellPrice=" + sellPrice + ", benchmark='" + benchmark + '\'' + ", tradeDate=" + tradeDate + ", security='" + security + '\'' + ", status='" + status + '\'' + ", trader='" + trader + '\'' + ", book='" + book + '\'' + ", creationName='" + creationName + '\'' + ", creationDate=" + creationDate + ", revisionName='" + revisionName + '\'' + ", revisionDate=" + revisionDate + ", dealName='" + dealName + '\'' + ", dealType='" + dealType + '\'' + ", sourceListId='" + sourceListId + '\'' + ", side='" + side + '\'' + '}';
     }
 }

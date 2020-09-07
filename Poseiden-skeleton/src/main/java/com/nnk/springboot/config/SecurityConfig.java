@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 ////                .permitAll()
 //                .and().formLogin()  //login configuration
 //                .permitAll()
-//                .defaultSuccessUrl("/")
+//                .defaultSuccessUrl("/bidList/list")
 //                .failureUrl("/error")
 //                .and().logout()    //logout configuration
 //                .permitAll()

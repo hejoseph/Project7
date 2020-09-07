@@ -1,11 +1,7 @@
 package com.nnk.springboot.domain;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 
@@ -13,9 +9,9 @@ import java.time.LocalDateTime;
 @Table(name = "curvepoint")
 public class CurvePoint {
     @Id
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotNull
     private Integer curveId;
     private LocalDateTime asOfDate;
     private Double term;

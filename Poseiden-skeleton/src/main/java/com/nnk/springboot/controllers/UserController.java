@@ -44,7 +44,7 @@ public class UserController {
             model.addAttribute("users", userRepository.findAll());
             return "redirect:/user/list";
         }
-        return "user/add";
+        return "redirect:/user/add";
     }
 
     @GetMapping("/user/update/{id}")
@@ -52,7 +52,7 @@ public class UserController {
         User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         user.setPassword("");
         model.addAttribute("user", user);
-        return "redirect:/user/update";
+        return "user/update";
     }
 
     @PostMapping("/user/update/{id}")

@@ -63,7 +63,7 @@ public class RuleNameController {
         }
         logger.info("Error on rulename adding validation, go back to adding form");
         logger.info(ruleName.toString());
-        return "ruleName/add";
+        return "redirect:/ruleName/add";
     }
 
     /**

@@ -66,7 +66,7 @@ public class TradeController {
         }
         logger.info("Error on trade validation, go back to adding form");
         logger.info(trade.toString());
-        return "trade/add";
+        return "redirect:/trade/add";
     }
 
 
@@ -99,9 +99,9 @@ public class TradeController {
         if(result.hasErrors()) {
             logger.info("Trade updating failed, go back to updating form display, has errors");
             logger.info(trade.toString());
-            return "trade/update";
+            return "redirect:/trade/update";
         }
-        trade.setId(id);
+        trade.setTradeId(id);
         tradeRepository.save(trade);
         model.addAttribute("trades", tradeRepository.findAll());
         logger.info("Trade saved successfully, model updated");

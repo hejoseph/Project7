@@ -1,17 +1,16 @@
 package com.nnk.springboot.domain;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bidlist")
 public class BidList {
     @Id
-    @NotNull
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer bidListId;
+    @NotBlank
     private String account;
     private String type;
     private Double bidQuantity;
@@ -37,8 +36,8 @@ public class BidList {
     public BidList() {
     }
 
-    public BidList(int id, String account, String type, Double bidQuantity) {
-        this.id = id;
+    public BidList(int bidListId, String account, String type, Double bidQuantity) {
+        this.bidListId = bidListId;
         this.account = account;
         this.type = type;
         this.bidQuantity = bidQuantity;
@@ -48,8 +47,8 @@ public class BidList {
         this(0, account, type, bidQuantity);
     }
 
-    public Integer getId() { return id; }
-    public void setId(Integer bidListId) { this.id = bidListId; }
+    public Integer getBidListId() { return bidListId; }
+    public void setBidListId(Integer bidListId) { this.bidListId = bidListId; }
 
     public String getAccount() { return account; }
     public void setAccount(String account) { this.account = account; }
@@ -116,6 +115,6 @@ public class BidList {
 
     @Override
     public String toString() {
-        return "BidList{" + "bidListId=" + id + ", account='" + account + '\'' + ", type='" + type + '\'' + ", bidQuantity=" + bidQuantity + ", askQuantity=" + askQuantity + ", bid=" + bid + ", ask=" + ask + ", benchmark='" + benchmark + '\'' + ", bidListDate=" + bidListDate + ", commentary='" + commentary + '\'' + ", security='" + security + '\'' + ", status='" + status + '\'' + ", trader='" + trader + '\'' + ", book='" + book + '\'' + ", creationName='" + creationName + '\'' + ", creationDate=" + creationDate + ", revisionName='" + revisionName + '\'' + ", revisionDate=" + revisionDate + ", dealName='" + dealName + '\'' + ", dealType='" + dealType + '\'' + ", sourceListId='" + sourceListId + '\'' + ", side='" + side + '\'' + '}';
+        return "BidList{" + "bidListId=" + bidListId + ", account='" + account + '\'' + ", type='" + type + '\'' + ", bidQuantity=" + bidQuantity + ", askQuantity=" + askQuantity + ", bid=" + bid + ", ask=" + ask + ", benchmark='" + benchmark + '\'' + ", bidListDate=" + bidListDate + ", commentary='" + commentary + '\'' + ", security='" + security + '\'' + ", status='" + status + '\'' + ", trader='" + trader + '\'' + ", book='" + book + '\'' + ", creationName='" + creationName + '\'' + ", creationDate=" + creationDate + ", revisionName='" + revisionName + '\'' + ", revisionDate=" + revisionDate + ", dealName='" + dealName + '\'' + ", dealType='" + dealType + '\'' + ", sourceListId='" + sourceListId + '\'' + ", side='" + side + '\'' + '}';
     }
 }

@@ -70,7 +70,7 @@ public class BidListController {
         }
         logger.info("Error on bidlist adding validation, go back to adding form");
         logger.info(bidList.toString());
-        return "bidList/add";
+        return "redirect:/bidList/add";
     }
 
     /**
@@ -101,9 +101,9 @@ public class BidListController {
                              BindingResult result, Model model) {
         if(result.hasErrors()) {
             logger.info("Bidlist updating failed, go back to updating form display, has errors");
-            return "bidList/update";
+            return "redirect:/bidList/update";
         }
-        bidList.setId(id);
+        bidList.setBidListId(id);
         bidListRepository.save(bidList);
         model.addAttribute("bidLists", bidListRepository.findAll());
         logger.info("Bidlist saved successfuly, model updated");
