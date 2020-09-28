@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
+<html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8"/>
@@ -37,7 +37,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- TODO: Show all Bids to the table, the Action column will have Edit & Delete buttons -->
+				<tr th:each="bidList : ${bidLists}">
+					<td style="width: 10%" th:text="${bidList.bidListId}"></td>
+					<td th:text="${bidList.account}"></td>
+					<td th:text="${bidList.type}"></td>
+					<td style="width: 25%" th:text="${bidList.bidQuantity}"></td>
+					<td style="width: 15%" class="text-center">
+						<a th:href="@{/bidList/update/{id}(id=${bidList.bidListId})}">Edit</a>&nbsp;|&nbsp;
+						<a th:href="@{/bidList/delete/{id}(id=${bidList.bidListId})}">Delete</a>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
