@@ -61,7 +61,6 @@ public class TradeControllerTest {
     public void updateTradeError() throws Exception {
         this.mockmvc.perform(post("/trade/update/"+trade.getTradeId())
                 .param("account", "").param("type", trade.getType()))
-//                .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/trade/update"))
                 .andDo(MockMvcResultHandlers.print());
     }
@@ -69,7 +68,6 @@ public class TradeControllerTest {
     @Test
     public void deleteTrade() throws Exception {
         this.mockmvc.perform(get("/trade/delete/"+trade.getTradeId()))
-//                .andExpect(MockMvcResultMatchers.status().isFound())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/trade/list"))
                 .andDo(MockMvcResultHandlers.print());
         Trade tradeFound = tradeDAO.findOneByTradeId(trade.getTradeId());

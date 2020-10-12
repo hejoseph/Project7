@@ -44,7 +44,7 @@ public class UserController {
             model.addAttribute("users", userRepository.findAll());
             return "redirect:/user/list";
         }
-        return "redirect:/user/add";
+        return "/user/add";
     }
 
     @GetMapping("/user/update/{id}")
@@ -59,7 +59,7 @@ public class UserController {
     public String updateUser(@PathVariable("id") Integer id, @Valid User user,
                              BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "redirect:/user/update";
+            return "user/update";
         }
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
