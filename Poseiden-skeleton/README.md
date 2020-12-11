@@ -48,3 +48,6 @@ mvn spring-boot:stop (stop app)
 ```Java (after compilation)
 java -jar target/spring-boot-skeleton-0.0.1-SNAPSHOT.jar
 ```
+
+```Run Mysql Database in the background before running app
+mysqld.exe --console
