@@ -29,3 +29,22 @@
 ## Security
 1. Create user service to load user from  database and place in package com.nnk.springboot.services
 2. Add configuration class and place in package com.nnk.springboot.config
+
+
+
+## Run app
+
+```mvn
+mvn clean install
+mvn clean verify (generate tests and test report)
+mvn site (generate reportings)
+```
+
+```Spring Boot
+mvn spring-boot:run (run app)
+mvn spring-boot:stop (stop app)
+```
+
+```Java (after compilation)
+java -jar target/spring-boot-skeleton-0.0.1-SNAPSHOT.jar
+```
